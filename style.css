@@ -1,4 +1,34 @@
+:root {
+    /* Varsayılan olarak Dark Mode (veya tam tersi hangisini istersen) */
+    --bg-color: #0f111a;
+    --card-bg: #161b22;
+    --text-color: #ffffff;
+    --text-dim: #8b949e;
+    --border: #30363d;
+    --accent: #ff4655; /* Valorant kırmızısı gibi */
+}
 
+[data-theme="light"] {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --text-dim: #65676b;
+    --border: #ddfeee; /* Daha açık bir gri/border */
+    --accent: #ff4655;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Yumuşak geçiş */
+}
+
+/* Kartlarını da değişkenlere bağla */
+.match-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-color);
+}
 * {
     margin: 0;
     padding: 0;
@@ -309,7 +339,186 @@ footer {
     letter-spacing: 1px;
 }
 
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 78, 0, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 78, 0, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 78, 0, 0); }
+}
 
+.live-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #ff4e00;
+    border-radius: 50%;
+    margin-right: 8px;
+    animation: pulse-red 2s infinite;
+}
+
+.countdown-timer {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: #ff4e00;
+    margin-top: 5px;
+    font-weight: bold;
+}
+/* TEMA DEĞİŞKENLERİ */
+        :root {
+            --bg-color: #0d0d0d;
+            --header-bg: #151515;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff;
+            --text-dim: rgba(255, 255, 255, 0.6);
+            --accent: #ff4e00;
+            --border: #333;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f0f0f0;
+            --header-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #1a1a1a;
+            --text-dim: rgba(0, 0, 0, 0.6);
+            --accent: #ff4e00;
+            --border: #ddd;
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            transition: all 0.3s ease;
+            margin: 0;
+        }
+
+        header { background-color: var(--header-bg); border-bottom: 1px solid var(--border); }
+        .match-card { background-color: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); }
+        h1 { color: var(--text-main); }
+
+        /* Yan Paneller (Skorlar) */
+        .side-panel {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            background: var(--card-bg);
+            padding: 15px 5px;
+            border-radius: 12px;
+            border: 1px solid var(--accent);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .left-panel { left: 10px; }
+        .right-panel { right: 10px; }
+        .side-panel h3 { font-size: 0.7rem; margin: 0; color: var(--accent); font-family: 'Orbitron'; }
+        
+        .form-dot {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.75rem;
+            font-family: 'Orbitron';
+        }
+        .win { background: #00e701; color: #000; box-shadow: 0 0 8px rgba(0, 231, 1, 0.4); }
+        .loss { background: #ff0000; color: #fff; box-shadow: 0 0 8px rgba(255, 0, 0, 0.4); }
+
+        /* Tema Butonu */
+        .theme-toggle-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Orbitron';
+            font-size: 0.7rem;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+        .theme-toggle-btn:hover { opacity: 0.8; transform: scale(1.05); }
+
+        /* Sosyal Bar ve Diğerleri */
+        .top-social-bar { display: flex; justify-content: center; gap: 25px; padding-top: 20px; margin-bottom: -10px; }
+        .top-social-bar a { color: var(--text-dim); font-size: 1.3rem; transition: 0.3s; }
+        .top-social-bar a:hover { color: var(--accent); }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 78, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 78, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 78, 0, 0); }
+        }
+        .live-dot { display: inline-block; width: 8px; height: 8px; background-color: var(--accent); border-radius: 50%; margin-right: 8px; animation: pulse-red 2s infinite; }
+        .countdown-timer { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--accent); margin-top: 10px; text-align: center; }
+
+        /* Mobil Ayarı */
+        @media (max-width: 768px) {
+            .side-panel { display: none; } /* Mobilde yan panelleri gizle ki ekran kapanmasın */
+        }
+:root {
+    --bg-color: #0d0d0d;
+    --card-bg: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #ff4e00;
+}
+
+[data-theme="light"] {
+    --bg-color: #f4f4f4;
+    --card-bg: #ffffff;
+    --text-color: #1a1a1a;
+    --accent-color: #e64500;
+}
+
+body { background-color: var(--bg-color); color: var(--text-color); transition: 0.3s; }
+
+
+.side-panel {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    background: var(--card-bg);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--accent-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+}
+.left-panel { left: 20px; }
+.right-panel { right: 20px; }
+.form-dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+.win { background: #00e701; color: #000; }
+.loss { background: #ff0000; color: #fff; }
+
+
+.theme-switch {
+    margin: 10px 0;
+    padding: 8px 15px;
+    background: var(--accent-color);
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-family: 'Orbitron', sans-serif;
+}
 @media (max-width: 600px) {
     .team-logo { width: 40px; height: 40px; }
     .team { font-size: 0.9rem; }
