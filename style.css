@@ -1,4 +1,4 @@
-/* Temel Ayarlar */
+
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +27,7 @@ h1 {
     margin-bottom: 25px;
 }
 
-/* Filtreleme Butonları */
+
 .filter-nav {
     display: flex;
     justify-content: center;
@@ -36,17 +36,16 @@ h1 {
 }
 
 
-/* Yayın Butonları Düzenlemesi */
+
 .actions {
     display: flex;
     gap: 12px;
     justify-content: center;
-    flex-wrap: wrap; /* Butonlar sığmazsa alt alta geçer */
-    margin-top: 15px;
+    flex-wrap: wrap; 
 }
 
 .watch-btn {
-    flex: 1; /* Butonların eşit genişlikte olmasını sağlar */
+    flex: 1;
     min-width: 140px;
     max-width: 200px;
     text-align: center;
@@ -65,7 +64,7 @@ h1 {
     opacity: 0.9;
 }
 
-/* Mobilde butonları tam genişlik yap */
+
 @media (max-width: 480px) {
     .watch-btn {
         max-width: 100%;
@@ -78,7 +77,7 @@ h1 {
     border: 1px solid #333;
     color: #bbb;
     padding: 10px 24px;
-    border-radius: 4px; /* Daha keskin, gaming duruşu */
+    border-radius: 4px; 
     cursor: pointer;
     transition: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.75rem;
@@ -101,7 +100,7 @@ h1 {
     padding: 0 20px;
 }
 
-/* Maç Kartı Tasarımı */
+
 .match-card {
     background: #121212;
     border-radius: 8px;
@@ -150,7 +149,7 @@ h1 {
     font-family: 'Orbitron', sans-serif;
 }
 
-/* TAKIM VE LOGO ALANI */
+
 .team-wrapper {
     display: flex;
     justify-content: space-between;
@@ -201,7 +200,7 @@ h1 {
     margin-bottom: 15px;
 }
 
-/* DETAYLAR (KADRO) */
+
 .match-details {
     max-height: 0;
     overflow: hidden;
@@ -241,7 +240,7 @@ h1 {
     list-style: none;
 }
 
-/* OYUNCU LİNK VE TASARIMI */
+
 .player-name {
     margin-bottom: 6px;
     transition: 0.3s all ease;
@@ -277,7 +276,7 @@ h1 {
     padding: 10px;
 }
 
-/* BUTONLAR */
+
 .watch-btn {
     background: #ff4e00;
     color: white !important;
@@ -310,7 +309,7 @@ footer {
     letter-spacing: 1px;
 }
 
-/* MOBIL UYUMLULUK */
+
 @media (max-width: 600px) {
     .team-logo { width: 40px; height: 40px; }
     .team { font-size: 0.9rem; }
