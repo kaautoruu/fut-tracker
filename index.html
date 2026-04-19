@@ -11,9 +11,9 @@
     <header>
         <h1>FUT MATCH TRACKER</h1>
         <nav class="filter-nav">
-            <button class="filter-btn active" onclick="filtrele('all')">HEPSİ</button>
-            <button class="filter-btn" onclick="filtrele('valorant')">VALORANT</button>
-            <button class="filter-btn" onclick="filtrele('csgo')">CS 2</button>
+            <button class="filter-btn active" onclick="filtrele('all', event)">HEPSİ</button>
+            <button class="filter-btn" onclick="filtrele('valorant', event)">VALORANT</button>
+            <button class="filter-btn" onclick="filtrele('csgo', event)">CS 2</button>
             <button class="filter-btn" onclick="comingSoon('PUBG Mobile')">PUBG-M</button>
             <button class="filter-btn" onclick="comingSoon('Brawl Stars')">BRAWL STARS</button>
         </nav>
@@ -28,27 +28,29 @@
     </footer>
 
 <script>
-    const PROXY_URL = 'https://script.google.com/macros/s/AKfycby75twuPW7p0TCrox3s9O2v-Q4JLLumaQtPiTYr23T4DH0AU9bit-sAGhWnuOU_JyeSDw/exec'; 
-    const PANDA_TOKEN = 'LP-Zjlq8RdZnVdj77jGxALXqsDsV5ROGlK6Uq78i-sj1D9OuSwQ'; 
-    const PANDA_IDS = ['136955', '128578', '137866']; 
-
+    // GÜVENLİ PROXY URL (TOKEN GOOGLE SCRIPT İÇİNDE GİZLİ)
+    const PROXY_URL = 'https://script.google.com/macros/s/AKfycbwjhx5zoguEanyX1VvnZRdq6wb68lxdhIpiHR912DJHB7koMuWVeuL7DeE-mMiBKKctgQ/exec'; 
+    const PANDA_IDS = ['136955', '128578', '137866'];
     let EXTERNAL_DATA = { valorant: {}, cs2: {}, links: {} };
     const container = document.getElementById('match-list');
 
     async function loadData() {
         try {
             const res = await fetch('data.json');
+            if (!res.ok) throw new Error("data.json okunamadı.");
             EXTERNAL_DATA = await res.json();
-        } catch (e) { console.error("Veri dosyası yüklenemedi."); }
+        } catch (e) { 
+            console.error("Veri dosyası hatası:", e); 
+        }
     }
 
     function getPlayerHtml(name, gameType) {
         const key = name.toLowerCase().trim();
-        let link = EXTERNAL_DATA.links[key];
+        let link = EXTERNAL_DATA.links ? EXTERNAL_DATA.links[key] : null;
         if (!link) {
             link = gameType === 'valorant' 
-                ? `https://www.vlr.gg/search/?q=${name}` 
-                : `https://www.hltv.org/search?query=${name}`;
+                ? `https://www.vlr.gg/search/?q=${encodeURIComponent(name)}` 
+                : `https://www.hltv.org/search?query=${encodeURIComponent(name)}`;
         }
         return `<li class="player-name"><a href="${link}" target="_blank">${name}</a></li>`;
     }
@@ -59,7 +61,7 @@
         
         try {
             const pandaPromises = PANDA_IDS.map(async (id) => {
-                const pandaUrl = `https://api.pandascore.co/teams/${id}/matches?token=${PANDA_TOKEN}&filter[status]=not_started`;
+                const pandaUrl = `https://api.pandascore.co/teams/${id}/matches?filter[status]=not_started`;
                 const finalUrl = `${PROXY_URL}?url=${encodeURIComponent(pandaUrl)}`;
                 const response = await fetch(finalUrl);
                 const rawData = await response.json();
@@ -68,7 +70,6 @@
 
             const results = await Promise.all(pandaPromises);
             let allMatches = results.flat();
-
             container.innerHTML = '';
             allMatches.sort((a, b) => new Date(a.begin_at) - new Date(b.begin_at));
 
@@ -80,20 +81,16 @@
             allMatches.forEach(match => {
                 const futSide = match.opponents.find(o => PANDA_IDS.includes(o.opponent.id.toString()));
                 const opponentData = match.opponents.find(o => !PANDA_IDS.includes(o.opponent.id.toString()));
-                
                 let rakipName = opponentData ? opponentData.opponent.name : "TBD";
                 const isAcademy = match.opponents.some(o => o.opponent.id.toString() === '137866');
                 const futTeamName = isAcademy ? "FUT ACADEMY" : "FUT ESPORTS";
-                const branchTitle = isAcademy ? "VALORANT / VCL" : match.videogame.name.toUpperCase();
-
+                const branchTitle = isAcademy ? "VALORANT / VCL" : (match.videogame.name.toUpperCase());
                 const futLogo = (futSide && futSide.opponent.image_url) ? futSide.opponent.image_url : 'https://dummyimage.com/50x50/000/fff&text=FUT';
                 const rakipLogo = (opponentData && opponentData.opponent.image_url) ? opponentData.opponent.image_url : 'https://dummyimage.com/50x50/000/fff&text=?';
-
                 let rawSlug = match.videogame.slug.toLowerCase();
                 let isValorant = rawSlug.includes('valorant');
                 let gameType = isValorant ? 'valorant' : 'cs2';
                 
-                // YAYIN LİNKİ MANTIĞI
                 let actionButtons = "";
                 if (isValorant) {
                     actionButtons = `<a href="https://www.twitch.tv/valorant_tur" target="_blank" class="watch-btn">YAYINI İZLE (TR)</a>`;
@@ -112,7 +109,6 @@
                     let rakipKey = rakipName.toLowerCase().trim();
                     let rakipPlayersHTML = "";
                     const kadroListesi = EXTERNAL_DATA[gameType];
-
                     if (kadroListesi && kadroListesi[rakipKey]) {
                         rakipPlayersHTML = kadroListesi[rakipKey].map(p => getPlayerHtml(p, gameType)).join('');
                     } else {
@@ -125,7 +121,6 @@
                             rakipPlayersHTML = "<li class='player-name'>Kadro bilgisi yakında...</li>";
                         }
                     }
-
                     let futKadro = (kadroListesi && kadroListesi["fut esports"]) 
                         ? kadroListesi["fut esports"].map(p => getPlayerHtml(p, gameType)).join('')
                         : (isValorant 
@@ -143,51 +138,33 @@
                 const card = document.createElement('div');
                 card.className = `match-card ${isValorant ? 'valorant' : 'csgo'}`;
                 card.onclick = function() { this.classList.toggle('active'); };
-                
-                const tarihString = new Date(match.begin_at).toLocaleString('tr-TR', {
-                    day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit'
-                });
+                const tarihString = new Date(match.begin_at).toLocaleString('tr-TR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
 
                 card.innerHTML = `
-                    <div class="card-header">
-                        <span class="branch-badge">${branchTitle}</span>
-                        <span class="status upcoming">DETAYLAR</span>
-                    </div>
+                    <div class="card-header"><span class="branch-badge">${branchTitle}</span><span class="status upcoming">DETAYLAR</span></div>
                     <div class="team-wrapper">
-                        <div class="team-container">
-                            <img src="${futLogo}" alt="FUT" class="team-logo">
-                            <div class="team">${futTeamName}</div>
-                        </div>
+                        <div class="team-container"><img src="${futLogo}" alt="FUT" class="team-logo"><div class="team">${futTeamName}</div></div>
                         <div class="vs">vs</div>
-                        <div class="team-container">
-                            <div class="team">${rakipName}</div>
-                            <img src="${rakipLogo}" alt="Rakip" class="team-logo">
-                        </div>
+                        <div class="team-container"><div class="team">${rakipName}</div><img src="${rakipLogo}" alt="Rakip" class="team-logo"></div>
                     </div>
                     <div class="time">${tarihString}</div>
-                    <div class="match-details">
-                        <hr style="border: 0.5px solid #333; margin: 15px 0;">
-                        ${detailsHTML}
-                    </div>`;
+                    <div class="match-details"><hr style="border: 0.5px solid #333; margin: 15px 0;">${detailsHTML}</div>`;
                 container.appendChild(card);
             });
         } catch (error) {
-            container.innerHTML = '<p style="text-align:center; color:red;">Veri çekme hatası oluştu.</p>';
+            container.innerHTML = '<p style="text-align:center; color:red;">Veriler şu an çekilemiyor.</p>';
         }
     }
 
     function comingSoon(gameName) { alert(gameName + " yakında eklenecektir!"); }
-
-    function filtrele(branch) {
+    function filtrele(branch, e) {
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        if(event && event.target) event.target.classList.add('active');
-        const cards = document.querySelectorAll('.match-card');
+        if(e && e.target) e.target.classList.add('active');
         const target = branch.toLowerCase();
-        cards.forEach(card => {
+        document.querySelectorAll('.match-card').forEach(card => {
             card.style.display = (target === 'all' || card.classList.contains(target)) ? 'block' : 'none';
         });
     }
-
     tumMaclariGetir();
 </script>
 </body>
