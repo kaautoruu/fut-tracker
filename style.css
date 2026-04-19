@@ -1,0 +1,320 @@
+/* Temel Ayarlar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+header {
+    background: linear-gradient(180deg, #ff4e00 0%, #0b0b0b 100%);
+    padding: 50px 20px;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+    text-shadow: 0 0 20px rgba(255, 78, 0, 0.4);
+    margin-bottom: 25px;
+}
+
+/* Filtreleme Butonları */
+.filter-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+
+/* Yayın Butonları Düzenlemesi */
+.actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap; /* Butonlar sığmazsa alt alta geçer */
+    margin-top: 15px;
+}
+
+.watch-btn {
+    flex: 1; /* Butonların eşit genişlikte olmasını sağlar */
+    min-width: 140px;
+    max-width: 200px;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 0.85rem;
+    text-decoration: none;
+    border-radius: 5px;
+    background: #ff4e00;
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.watch-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* Mobilde butonları tam genişlik yap */
+@media (max-width: 480px) {
+    .watch-btn {
+        max-width: 100%;
+        flex: none;
+        width: 100%;
+    }
+}
+.filter-btn {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid #333;
+    color: #bbb;
+    padding: 10px 24px;
+    border-radius: 4px; /* Daha keskin, gaming duruşu */
+    cursor: pointer;
+    transition: 0.3s all cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.75rem;
+    font-weight: 800;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: #ff4e00;
+    color: white;
+    border-color: #ff4e00;
+    box-shadow: 0 0 20px rgba(255, 78, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.match-container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Maç Kartı Tasarımı */
+.match-card {
+    background: #121212;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid #1f1f1f;
+    transition: 0.3s all ease;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.match-card:hover {
+    border-color: #ff4e00;
+    box-shadow: 0 0 30px rgba(255, 78, 0, 0.1);
+}
+
+.match-card.valorant { border-left: 4px solid #ff4655; }
+.match-card.csgo { border-left: 4px solid #de9b35; }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.branch-badge {
+    background: rgba(255, 78, 0, 0.1);
+    padding: 5px 14px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #ff4e00;
+    font-family: 'Orbitron', sans-serif;
+    border: 1px solid rgba(255, 78, 0, 0.2);
+}
+
+.status {
+    font-size: 0.65rem;
+    font-weight: 900;
+    padding: 5px 12px;
+    border-radius: 3px;
+    background: #007bff;
+    letter-spacing: 1px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* TAKIM VE LOGO ALANI */
+.team-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.team-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.team-container:last-child {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.team-logo {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(0,0,0,0.5));
+}
+
+.team {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.vs {
+    color: #ff4e00;
+    font-weight: 900;
+    font-size: 1.2rem;
+    font-style: italic;
+    padding: 0 20px;
+    opacity: 0.8;
+}
+
+.time {
+    text-align: center;
+    color: #666;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+/* DETAYLAR (KADRO) */
+.match-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.match-card.active .match-details {
+    max-height: 800px;
+    opacity: 1;
+    margin-top: 20px;
+}
+
+.players-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.player-list {
+    flex: 1;
+}
+
+.player-list strong {
+    display: block;
+    color: #ff4e00;
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 5px;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+.player-list ul {
+    list-style: none;
+}
+
+/* OYUNCU LİNK VE TASARIMI */
+.player-name {
+    margin-bottom: 6px;
+    transition: 0.3s all ease;
+}
+
+.player-name a {
+    text-decoration: none;
+    color: #888;
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: 0.3s all ease;
+    border-left: 0 solid #ff4e00;
+}
+
+.player-name:hover a {
+    color: #ffffff;
+    background: rgba(255, 78, 0, 0.15);
+    border-left: 4px solid #ff4e00;
+    padding-left: 20px;
+    transform: translateX(5px);
+}
+
+.player-list li:not(.player-name) {
+    font-style: italic;
+    color: #444;
+    font-size: 0.75rem;
+    padding: 10px;
+}
+
+/* BUTONLAR */
+.watch-btn {
+    background: #ff4e00;
+    color: white !important;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 12px 30px;
+    border-radius: 3px;
+    display: inline-block;
+    margin-top: 25px;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: 0.3s;
+    border: 1px solid transparent;
+}
+
+.watch-btn:hover {
+    background: transparent;
+    border-color: #ff4e00;
+    color: #ff4e00 !important;
+    box-shadow: 0 0 20px rgba(255, 78, 0, 0.2);
+}
+
+footer {
+    text-align: center;
+    padding: 60px;
+    color: #333;
+    font-size: 0.75rem;
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 1px;
+}
+
+/* MOBIL UYUMLULUK */
+@media (max-width: 600px) {
+    .team-logo { width: 40px; height: 40px; }
+    .team { font-size: 0.9rem; }
+    .vs { font-size: 0.9rem; padding: 0 10px; }
+    .players-grid { flex-direction: column; gap: 20px; }
+    h1 { font-size: 1.8rem; }
+}
