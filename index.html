@@ -20,22 +20,23 @@
         </div>
         
         <h1>FUT MATCH TRACKER</h1>
-        <div id="theme-switch" onclick="toggleTheme()" style="cursor:pointer;">
+        
+        <div id="theme-switch" style="cursor:pointer; font-size: 1.5rem; margin-bottom: 20px;">
             <i class="fa-solid fa-moon"></i>
             <i class="fa-solid fa-sun"></i>
         </div>
 
         <nav class="filter-nav">
-            <button class="filter-btn active" onclick="filtrele('all', event)">HEPSİ</button>
-            <button class="filter-btn" onclick="filtrele('valorant', event)">VALORANT</button>
-            <button class="filter-btn" onclick="filtrele('csgo', event)">CS 2</button>
-            <button class="filter-btn" onclick="comingSoon('PUBG Mobile')">PUBG-M</button>
-            <button class="filter-btn" onclick="comingSoon('Brawl Stars')">BRAWL STARS</button>
+            <button class="filter-btn active" data-filter="all">HEPSİ</button>
+            <button class="filter-btn" data-filter="valorant">VALORANT</button>
+            <button class="filter-btn" data-filter="csgo">CS 2</button>
+            <button class="filter-btn" data-type="coming-soon" data-name="PUBG Mobile">PUBG-M</button>
+            <button class="filter-btn" data-type="coming-soon" data-name="Brawl Stars">BRAWL STARS</button>
         </nav>
     </header>
 
     <main class="match-container" id="match-list">
-        <p style="text-align:center; color:#ff4e00;">Yükleniyor...</p>
+        <p style="text-align:center; color: #ff4e00;">Yükleniyor...</p>
     </main>
 
     <footer>
