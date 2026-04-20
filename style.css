@@ -305,3 +305,194 @@ footer {
     color: var(--text-dim);
     font-size: 0.7rem;
 }
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; width: 14px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: var(--accent); }
+input:checked + .slider:before { transform: translateX(20px); }
+/* --- HAREKETLİ ARKA PLAN (VFX) --- */
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 78, 0, 0.05) 0%, transparent 80%);
+    z-index: -2;
+}
+
+/* Yavaşça hareket eden çizgiler efekti */
+.vfx-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: linear-gradient(rgba(255, 78, 0, 0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255, 78, 0, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+    animation: moveBG 20s linear infinite;
+}
+
+@keyframes moveBG {
+    from { background-position: 0 0; }
+    to { background-position: 50px 50px; }
+}
+
+/* --- TAHMİN BUTONLARI --- */
+.prediction-container {
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px dashed var(--border);
+    text-align: center;
+}
+
+.pred-title {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+}
+
+.pred-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pred-btn {
+    background: rgba(255, 78, 0, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--text-color);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.pred-btn:hover:not(:disabled) {
+    background: var(--accent);
+    color: #fff;
+}
+
+.pred-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--text-dim);
+}
+
+:root {
+    --bg-color: #0b0b0b;
+    --header-grad: linear-gradient(180deg, #ff4e00 0%, #0b0b0b 100%);
+    --card-bg: #121212;
+    --text-main: #ffffff;
+    --text-dim: #888888;
+    --accent: #ff4e00;
+    --border: #1f1f1f;
+    --win-color: #00e701;
+    --loss-color: #ff4655;
+}
+
+[data-theme="light"] {
+    --bg-color: #f4f4f4;
+    --header-grad: linear-gradient(180deg, #ff4e00 0%, #f4f4f4 100%);
+    --card-bg: #ffffff;
+    --text-main: #1a1a1a;
+    --text-dim: #666666;
+    --accent: #e64500;
+    --border: #dddddd;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Orbitron', sans-serif; }
+body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+header { background: var(--header-grad); padding: 50px 20px; text-align: center; }
+h1 { font-size: 2.5rem; letter-spacing: 5px; text-shadow: 0 0 20px rgba(255, 78, 0, 0.4); margin-bottom: 25px; }
+
+/* Yan Paneller ve Form Bar */
+.side-panel { position: fixed; top: 50%; transform: translateY(-50%); width: 65px; background: var(--card-bg); padding: 15px 5px; border-radius: 12px; border: 1px solid var(--accent); z-index: 100; text-align: center; }
+.left-panel { left: 20px; }
+.right-panel { right: 20px; }
+.side-panel h3 { font-size: 0.65rem; color: var(--accent); margin-bottom: 10px; line-height: 1.2; }
+
+.form-chart { display: flex; align-items: flex-end; justify-content: center; gap: 3px; height: 50px; background: rgba(255,255,255,0.03); padding: 5px; border-radius: 4px; }
+.form-bar { width: 8px; border-radius: 2px; }
+.form-bar.win { background: var(--win-color); box-shadow: 0 0 8px var(--win-color); }
+.form-bar.loss { background: var(--loss-color); box-shadow: 0 0 8px var(--loss-color); }
+
+/* Maç Kartları */
+.match-container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
+.match-card { background: var(--card-bg); border-radius: 8px; padding: 25px; margin-bottom: 25px; border: 1px solid var(--border); transition: 0.3s ease; cursor: pointer; }
+.match-card:hover { border-color: var(--accent); box-shadow: 0 0 30px rgba(255, 78, 0, 0.1); }
+
+.match-full-date { font-size: 0.75rem; font-weight: 300; color: var(--text-dim); text-align: center; margin-top: 5px; opacity: 0.8; }
+.final-score { color: var(--accent); font-size: 1.5rem; font-weight: 900; }
+
+/* Tahmin Sistemi Görselleri */
+.stats-bar { display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; margin-bottom: 10px; color: var(--text-dim); }
+.stat-progress { flex: 1; height: 6px; background: rgba(255,255,255,0.1); margin: 0 10px; border-radius: 10px; overflow: hidden; }
+.stat-progress div { height: 100%; transition: width 0.5s; }
+
+.prediction-container { margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border); text-align: center; }
+.pred-title { font-size: 0.65rem; color: var(--text-dim); margin-bottom: 10px; letter-spacing: 1px; }
+.pred-btns { display: flex; justify-content: center; gap: 10px; }
+.pred-btn { background: rgba(255, 78, 0, 0.1); border: 1px solid var(--accent); color: white; padding: 6px 15px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; }
+.pred-btn.active { background: var(--accent); border-color: white; }
+.pred-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.pred-result { font-size: 0.8rem; font-weight: bold; padding: 8px; border-radius: 4px; display: inline-block; margin-top: 10px; }
+.pred-result.win { background: rgba(0, 231, 1, 0.1); color: var(--win-color); border: 1px solid var(--win-color); }
+.pred-result.loss { background: rgba(255, 70, 85, 0.1); color: var(--loss-color); border: 1px solid var(--loss-color); }
+.pred-result.neutral { background: rgba(255, 255, 255, 0.05); color: var(--text-dim); }
+
+/* Arka Plan VFX */
+.animated-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: #0b0b0b; }
+.bg-circle { position: absolute; width: 350px; height: 350px; background: var(--accent); filter: blur(160px); opacity: 0.06; border-radius: 50%; animation: moveBg linear infinite; }
+@keyframes moveBg { 0% { transform: translate(0, 0); } 100% { transform: translate(80px, 80px); } }
+
+/* Diğerleri */
+.team-wrapper { display: flex; justify-content: space-between; align-items: center; }
+.team-container { display: flex; align-items: center; gap: 15px; flex: 1; }
+.team-logo { width: 50px; height: 50px; object-fit: contain; }
+.match-details { max-height: 0; overflow: hidden; transition: 0.4s; opacity: 0; }
+.match-card.active .match-details { max-height: 600px; opacity: 1; margin-top: 20px; }
